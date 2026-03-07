@@ -278,53 +278,65 @@ export function AiLayer() {
           {CAPABILITIES.map((cap, i) => {
             const isActive = active === cap.id;
             return (
-              <motion.div
-                key={cap.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-                onClick={() => handleSelect(cap.id)}
-                className={`relative cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] rounded-2xl p-6 md:p-7 border bg-white/[0.02]
-                  ${isActive 
-                    ? 'border-black/40 shadow-sm bg-black/[0.04] translate-y-[-2px]' 
-                    : 'border-black/[0.07] hover:border-black/[0.18] hover:translate-y-[-4px] hover:shadow-[0_12px_32px_rgba(0,0,0,0.04)] hover:bg-white/[0.3]'
-                  }
-                `}
-              >
-                <div className="flex flex-col h-full">
-                  <p style={{ fontFamily: "'DM Mono', monospace", letterSpacing: "0.18em" }} className="text-[9px] text-black/[0.28] uppercase m-0 mb-4">
-                    {cap.tag}
-                  </p>
+              <div key={cap.id} className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+                  onClick={() => handleSelect(cap.id)}
+                  className={`relative cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] rounded-2xl p-6 md:p-7 border bg-white/[0.02]
+                    ${isActive
+                      ? 'gradient-border-active gradient-border-sm shadow-sm bg-black/[0.04] translate-y-[-2px]'
+                      : 'border-black/[0.07] hover:border-black/[0.18] hover:translate-y-[-4px] hover:shadow-[0_12px_32px_rgba(0,0,0,0.04)] hover:bg-white/[0.3]'
+                    }
+                  `}
+                >
+                  <div className="flex flex-col h-full">
+                    <p style={{ fontFamily: "'DM Mono', monospace", letterSpacing: "0.18em" }} className="text-[9px] text-black/[0.28] uppercase m-0 mb-4">
+                      {cap.tag}
+                    </p>
 
-                  <h3 style={{ fontFamily: "'Playfair Display', serif" }} className="text-[17px] md:text-[19px] font-normal text-[#111] m-0 mb-2.5 leading-[1.2] tracking-tight">
-                    {cap.title}
-                  </h3>
+                    <h3 style={{ fontFamily: "'Playfair Display', serif" }} className="text-[17px] md:text-[19px] font-normal text-[#111] m-0 mb-2.5 leading-[1.2] tracking-tight">
+                      {cap.title}
+                    </h3>
 
-                  <p style={{ fontFamily: "'DM Sans', sans-serif" }} className="text-[13px] text-black/40 m-0 mb-6 leading-[1.6] flex-1">
-                    {cap.desc}
-                  </p>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif" }} className="text-[13px] text-black/40 m-0 mb-6 leading-[1.6] flex-1">
+                      {cap.desc}
+                    </p>
 
-                  <div className="mt-auto pt-4 border-t border-black/[0.04] flex items-center justify-between">
-                    <span style={{ fontFamily: "'DM Mono', monospace", letterSpacing: "0.1em" }} className={`text-[9.5px] uppercase transition-colors duration-200 ${isActive ? 'text-[#111]' : 'text-black/[0.22] group-hover:text-black/40'}`}>
-                      {isActive ? 'CLOSE' : 'ASK PROMETHEUS'}
-                    </span>
-                    <span style={{ fontFamily: "'DM Mono', monospace" }} className={`text-[10px] transition-transform duration-300 ${isActive ? 'text-[#111] rotate-180' : 'text-black/[0.22] rotate-0'}`}>
-                      ↓
-                    </span>
+                    <div className="mt-auto pt-4 border-t border-black/[0.04] flex items-center justify-between">
+                      <span style={{ fontFamily: "'DM Mono', monospace", letterSpacing: "0.1em" }} className={`text-[9.5px] uppercase transition-colors duration-200 ${isActive ? 'text-[#111]' : 'text-black/[0.22] group-hover:text-black/40'}`}>
+                        {isActive ? 'CLOSE' : 'ASK PROMETHEUS'}
+                      </span>
+                      <span style={{ fontFamily: "'DM Mono', monospace" }} className={`text-[10px] transition-transform duration-300 ${isActive ? 'text-[#111] rotate-180' : 'text-black/[0.22] rotate-0'}`}>
+                        ↓
+                      </span>
+                    </div>
                   </div>
+                </motion.div>
+
+                {/* Inline chat panel — visible on mobile/tablet only */}
+                <div className="sm:hidden">
+                  <AnimatePresence mode="wait">
+                    {isActive && (
+                      <ChatPanel key={cap.id} cap={cap} />
+                    )}
+                  </AnimatePresence>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
-        {/* Chat Panel */}
-        <AnimatePresence mode="wait">
-          {activeCap && (
-            <ChatPanel key={activeCap.id} cap={activeCap} />
-          )}
-        </AnimatePresence>
+        {/* Chat Panel — visible on sm+ screens */}
+        <div className="hidden sm:block">
+          <AnimatePresence mode="wait">
+            {activeCap && (
+              <ChatPanel key={activeCap.id} cap={activeCap} />
+            )}
+          </AnimatePresence>
+        </div>
 
       </div>
     </section>

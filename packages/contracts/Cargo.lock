@@ -1329,6 +1329,7 @@ checksum = "5a5f39404a5da50712a4c1eecf25e90dd62b613502b7e925fd4e4d19b5c96512"
 name = "vault-contract"
 version = "0.1.0"
 dependencies = [
+ "nester-access-control",
  "nester-common",
  "nester-test-utils",
  "soroban-sdk",
@@ -1338,6 +1339,7 @@ dependencies = [
 name = "vault-token-contract"
 version = "0.1.0"
 dependencies = [
+ "nester-access-control",
  "nester-common",
  "nester-test-utils",
  "soroban-sdk",

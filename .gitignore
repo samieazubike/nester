@@ -52,6 +52,9 @@ target/
 .flutter-plugins
 .flutter-plugins-dependencies
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 # test snapshots
 test_snapshots/

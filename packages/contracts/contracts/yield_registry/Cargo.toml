@@ -5,6 +5,7 @@ edition = "2021"
 publish = false
 
 [lib]
+# Use a clean crate name so allocation_strategy can import it as `yield_registry`.
 name = "yield_registry"
 crate-type = ["cdylib", "rlib"]
 doctest = false
